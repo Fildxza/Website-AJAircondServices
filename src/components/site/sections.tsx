@@ -99,7 +99,7 @@ export function Hero() {
             </p>
           </Reveal>
           <Reveal delay={80}>
-            <h1 className="mt-6 font-display text-[2.7rem] font-black uppercase leading-[0.95] tracking-tight sm:text-7xl lg:text-[4.75rem]">
+            <h1 className="mt-6 font-display text-[2.5rem] font-black uppercase leading-[0.98] tracking-tight sm:text-6xl lg:text-[3.6rem]">
               {t.hero.titleA}
               <br />
               <span className="text-brand">{t.hero.titleB}</span>

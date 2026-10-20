@@ -30,8 +30,8 @@ export const ms: Copy = {
   },
   hero: {
     eyebrow: "Servis aircond · Kuala Lumpur & Selangor",
-    titleA: "Sejuk betul,",
-    titleB: "kerja kemas.",
+    titleA: "Confirm sejuk,",
+    titleB: "kerja mantap dan kemas.",
     body: "Servis, cuci kimia, tambah gas dan baiki aircond wall mounted, ceiling cassette dan ceiling exposed di Kuala Lumpur dan Selangor. Harga jelas ikut jenis unit, bukan ikut HP.",
     startingFrom: "Mula dari",
     startingNote: "Cuci kimia aircond wall mounted",

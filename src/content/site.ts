@@ -385,3 +385,37 @@ export const galleryItems: readonly GalleryItem[] = [
     position: "50% 55%",
   },
 ];
+
+/**
+ * Genuine Google reviews, copied by hand from AJ's Google listing on 2026-10-20 and supplied by the
+ * owner. Text is verbatim (original language, emoji included) and is NOT translated. They are a
+ * snapshot, not a live feed: nothing here updates by itself.
+ *
+ * Every shown review is 5 stars: Google's summary read 5.0 across 4 reviews and the 4th (posted
+ * the same day by the website's own operator, not a customer) is deliberately left out.
+ * No reviewer profile photos or customer photos were supplied, so none are shown.
+ *
+ * `url` must be the verified official Google Maps listing/review link. It is null until the owner
+ * supplies it; while null the "see all reviews" button is not rendered.
+ */
+export const googleReviews: {
+  snapshotDate: string;
+  url: string | null;
+  items: readonly { name: string; text: string; badge?: "Local Guide"; shortened?: boolean }[];
+} = {
+  snapshotDate: "2026-10-20",
+  url: null,
+  items: [
+    {
+      name: "Zac Kwek",
+      badge: "Local Guide",
+      shortened: true,
+      text: "First time using AJ Conditioning Services, and I’m genuinely impressed by how detailed and professional the whole service was. This wasn’t the usual quick aircond cleaning and leave. …",
+    },
+    { name: "vera kong", text: "best service" },
+    {
+      name: "Zho Du",
+      text: "Tip top service! Check condition before proceed service and make sure run smooth after service. 👍🏻",
+    },
+  ],
+};

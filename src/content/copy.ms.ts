@@ -152,6 +152,18 @@ export const ms: Copy = {
       { title: "Semak & bayar", body: "Kami uji kesejukan bersama anda sebelum anda bayar." },
     ],
   },
+  reviews: {
+    eyebrow: "Ulasan",
+    title: "Kata pelanggan di Google",
+    intro:
+      "Ulasan sebenar yang disalin daripada listing Google AJ pada {date}. Ia dipaparkan seperti asal, dalam kata-kata pelanggan sendiri. Ini ialah petikan pada tarikh itu dan tidak dikemas kini secara automatik.",
+    stars: "5 bintang daripada 5",
+    localGuide: "Google Local Guide",
+    shortened: "Dipendekkan di sini. Baca ulasan penuh di Google.",
+    source: "Sumber: ulasan Google",
+    viewAll: "Lihat semua ulasan di Google",
+    dateLabel: "20 Okt 2026",
+  },
   area: {
     eyebrow: "Kawasan servis",
     title: "Kuala Lumpur & Selangor",

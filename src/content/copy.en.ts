@@ -104,6 +104,18 @@ export const en = {
       "We inspect your unit, explain what is needed, then service it and test the cooling with you before you pay.",
     steps: processSteps.map((x) => ({ title: s(x.title), body: s(x.body) })),
   },
+  reviews: {
+    eyebrow: "Reviews",
+    title: "What customers say on Google",
+    intro:
+      "Real reviews copied from AJ's Google listing on {date}. They are shown as written, in the customer's own words. This is a snapshot and does not update automatically.",
+    stars: "5 out of 5 stars",
+    localGuide: "Google Local Guide",
+    shortened: "Shortened here. Read the full review on Google.",
+    source: "Source: Google reviews",
+    viewAll: "See all reviews on Google",
+    dateLabel: "20 Oct 2026",
+  },
   area: {
     eyebrow: "Service area",
     title: "Kuala Lumpur & Selangor",

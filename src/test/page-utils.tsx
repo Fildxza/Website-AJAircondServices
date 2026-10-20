@@ -17,6 +17,7 @@ import {
   Services,
   UnitTypes,
 } from "@/components/site/sections";
+import { Reviews } from "@/components/site/reviews";
 import { ServiceArea } from "@/components/site/service-area";
 import { LanguageProvider } from "@/lib/language";
 
@@ -45,6 +46,7 @@ export function renderWholePage(lang: Lang = "en") {
           <UnitTypes />
           <Gallery />
           <Process />
+          <Reviews />
           <ServiceArea />
           <Faq />
           <Contact />

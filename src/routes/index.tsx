@@ -14,6 +14,7 @@ import {
   Services,
   UnitTypes,
 } from "@/components/site/sections";
+import { Reviews } from "@/components/site/reviews";
 import { ServiceArea } from "@/components/site/service-area";
 import { buildPageHead } from "@/lib/seo";
 
@@ -34,6 +35,7 @@ function Index() {
         <UnitTypes />
         <Gallery />
         <Process />
+        <Reviews />
         <ServiceArea />
         <Faq />
         <Contact />

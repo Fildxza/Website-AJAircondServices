@@ -14,6 +14,7 @@ const watched = [
   "units",
   "gallery",
   "process",
+  "reviews",
   "service-area",
   "faq",
   "contact",

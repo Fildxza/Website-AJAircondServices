@@ -87,12 +87,13 @@ export const coveredAreas = ["Kuala Lumpur", "Selangor"] as const;
 /**
  * Production origin, e.g. "https://www.example.com" (https, no trailing slash, no path).
  *
- * PENDING OWNER DECISION: no production domain has been confirmed. While this is null the site
+ * Set to the verified live Netlify address (opened and checked 2026-10-20). Change it to the custom
+ * domain if one is bought later. While this is null the site
  * omits everything that needs an absolute URL: canonical link, og:url, og:image and the
  * url/logo fields of the structured data. Set it once, only to the verified live domain
  * (never localhost or a preview URL). See the SEO notes in the Phase D report.
  */
-export const siteUrl: string | null = null;
+export const siteUrl: string | null = "https://ajaircondservices.netlify.app";
 
 /**
  * Approved brand asset: the owner's new logo (supplied 720x1280 JPEG), lossless margin crop.

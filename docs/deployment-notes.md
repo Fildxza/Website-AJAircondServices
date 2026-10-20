@@ -1,7 +1,11 @@
 # Deployment notes
 
-Status: **nothing has been deployed.** No domain has been bought and no hosting account has been
-touched. Everything below is preparation. Last verified against the project on 2026-10-19.
+Status: **nothing has been deployed.** No domain has been bought. **Netlify is the chosen host** (site
+name `ajaircondservices`, free `*.netlify.app` address). The project is prepared for it: `vite.config.ts`
+has `nitro: { preset: "netlify" }` and `netlify.toml` sets the build (`npm run build`, publish `dist`,
+Node 22). Verified locally on 2026-10-20: the build succeeds and the generated server function
+returns the home page (200, `lang="ms-MY"`, one title, JSON-LD, Bahasa Melayu content). It has **not**
+been run on Netlify itself yet: do a first deploy, then open the real URL and tick the checklist.
 
 ## 1. What this project is
 
@@ -82,7 +86,7 @@ Cloudflare account and the `wrangler` tool, neither of which has been used.
 - [ ] Every WhatsApp button opens WhatsApp with the right number and message (tap each on a phone)
 - [ ] Both `tel:` links dial the right numbers
 - [ ] "Load map" loads the map; "Open in Google Maps" opens a new tab
-- [ ] View page source: one `<title>`, one description, one JSON-LD block, `lang="en-MY"`
+- [ ] View page source: one `<title>`, one description, one JSON-LD block, `lang="ms-MY"` (the default language)
 - [ ] Favicon decision made (see `brand-assets-pending.md`)
 - [ ] Owner has answered, or explicitly deferred, every item in the decision register
 

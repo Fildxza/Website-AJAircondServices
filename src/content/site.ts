@@ -22,14 +22,36 @@ export function whatsAppLink(base: string, message?: string) {
 }
 
 /**
- * Map for the Service Area section: a neutral Google Maps view (no search query, so no
- * marker, place card or boundary). The centre point is only a viewport over Kuala Lumpur and
- * Selangor — it is NOT a business location. Standard embed: no API key, no billing.
+ * Map for the Service Area section: a small static map built from OpenStreetMap tiles (no key, no
+ * Google cookies, nothing to click) with one pin per covered area. The centre is only a viewport
+ * over Kuala Lumpur and Selangor, not a business location.
  */
 export const serviceMap = {
-  embedUrl: "https://maps.google.com/maps?ll=3.30,101.55&z=9&output=embed",
+  /** Google Maps fallback link (a neutral view, no search query and no marker). */
   openUrl: "https://www.google.com/maps/@3.30,101.55,9z",
-  title: "Google Map: general view of Kuala Lumpur and Selangor",
+  title: "Map: general view of the Kuala Lumpur and Selangor service area",
+  zoom: 9,
+  center: { lat: 3.27, lon: 101.55 },
+  /**
+   * One pin per covered area. They mark AREAS, not a shop or office: no address has been confirmed.
+   * The Selangor pin is a representative point inside the state, not a town or neighbourhood claim.
+   */
+  pins: [
+    {
+      id: "kl",
+      name: "Kuala Lumpur",
+      lat: 3.139,
+      lon: 101.687,
+      href: "https://www.google.com/maps/search/?api=1&query=Kuala+Lumpur",
+    },
+    {
+      id: "selangor",
+      name: "Selangor",
+      lat: 3.45,
+      lon: 101.4,
+      href: "https://www.google.com/maps/search/?api=1&query=Selangor",
+    },
+  ],
 } as const;
 
 /** In-page anchors for the header. Labels come from the active language (copy.nav, same order). */

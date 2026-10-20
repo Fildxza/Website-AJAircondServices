@@ -174,12 +174,10 @@ export const ms: Copy = {
     ctaBody: "Beritahu kawasan anda dan kami akan maklumkan sama ada kami boleh bantu.",
     ctaButton: "Tanya pasal kawasan saya",
     ctaNote: "Boleh sahkan sama ada anda servis kawasan saya: ",
-    mapHeading: "Peta Kuala Lumpur & Selangor",
-    loadMap: "Muat peta",
-    mapPrivacy:
-      "Ini akan memuatkan Google Maps. Google mungkin menyimpan kuki dan mengumpul data mengikut dasar privasinya sendiri. Tiada apa-apa dimuatkan sehingga anda tekan butang ini.",
     mapCaption:
-      "Paparan peta umum Kuala Lumpur dan Selangor. Ia tidak menunjukkan lokasi kedai atau pejabat.",
+      "Peta umum kawasan servis. Penanda menunjukkan kawasan, bukan lokasi kedai atau pejabat.",
+    mapAttribution: "© penyumbang OpenStreetMap",
+    pinLabel: "{name}: buka dalam Google Maps",
     openMap: "Buka dalam Google Maps",
     mapTitle: "Peta Google: paparan umum Kuala Lumpur dan Selangor",
   },

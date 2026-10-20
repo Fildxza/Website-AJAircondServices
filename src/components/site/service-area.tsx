@@ -1,49 +1,87 @@
-import { useState } from "react";
-import { ArrowRight, Check, ExternalLink, Map as MapIcon } from "lucide-react";
+import { ArrowRight, Check, ExternalLink, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { fill } from "@/content/copy";
 import { coveredAreas, serviceMap } from "@/content/site";
+import { TILE, layoutTiles, tileUrl } from "@/lib/map";
 import { useLanguage } from "@/lib/language";
 import { useBooking } from "./booking-context";
 import { Reveal, SectionHeading, container } from "./primitives";
 
 /**
- * Click-to-load Google Maps. Nothing is requested from Google until the visitor presses
- * "Load map", so the page stays light and no Google cookies are set on first load.
- * The view is neutral: no marker, no boundary, no business address.
+ * A small static map made from OpenStreetMap tiles, shown straight away (nothing to click, no Google
+ * cookies, no API key). It marks the two covered AREAS with a pin each; it does not show a shop or
+ * office. Each pin links to that area on Google Maps, and "Open in Google Maps" is always offered.
  */
 export function ServiceAreaMap() {
   const { t } = useLanguage();
-  const [loaded, setLoaded] = useState(false);
+  const layout = layoutTiles(serviceMap.center, serviceMap.zoom, serviceMap.pins);
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-white shadow-soft">
-      <div className="relative h-[22rem] sm:aspect-[16/10] sm:h-auto">
-        {loaded ? (
-          <iframe
-            src={serviceMap.embedUrl}
-            title={t.area.mapTitle}
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-            className="absolute inset-0 h-full w-full border-0"
-          />
-        ) : (
-          <div className="photo-pending absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
-            <span className="relative grid h-14 w-14 place-items-center rounded-2xl bg-cta text-white shadow-lift">
-              <MapIcon className="h-6 w-6" aria-hidden />
-            </span>
-            <p className="relative font-display text-lg font-black uppercase">
-              {t.area.mapHeading}
-            </p>
-            <button
-              type="button"
-              onClick={() => setLoaded(true)}
-              className="relative inline-flex min-h-12 items-center justify-center rounded-full bg-cta px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-brand-foreground shadow-[0_12px_24px_-12px_rgb(217_54_0/0.8)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-cta-hover hover:shadow-lift active:scale-[0.98]"
-            >
-              {t.area.loadMap}
-            </button>
-            <p className="relative max-w-xs text-xs text-muted-foreground">{t.area.mapPrivacy}</p>
-          </div>
-        )}
+      <div
+        role="group"
+        aria-label={t.area.mapTitle}
+        className="photo-pending relative h-[22rem] overflow-hidden sm:aspect-[16/10] sm:h-auto"
+      >
+        {/* The tile block is centred on the map centre, so it never needs to know the frame size. */}
+        <div
+          className="absolute"
+          style={{
+            width: layout.sizePx,
+            height: layout.sizePx,
+            left: `calc(50% - ${layout.center.left}px)`,
+            top: `calc(50% - ${layout.center.top}px)`,
+          }}
+        >
+          {layout.tiles.map((tile) => (
+            <img
+              key={`${tile.x}-${tile.y}`}
+              src={tileUrl(serviceMap.zoom, tile.x, tile.y)}
+              alt=""
+              width={TILE}
+              height={TILE}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              className="absolute select-none"
+              style={{ left: tile.left, top: tile.top }}
+            />
+          ))}
+          {layout.pins.map((pin) => {
+            const area = serviceMap.pins.find((p) => p.id === pin.id);
+            if (!area) return null;
+            return (
+              <a
+                key={pin.id}
+                href={area.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={fill(t.area.pinLabel, { name: area.name })}
+                className="group absolute -translate-x-1/2 -translate-y-full"
+                style={{ left: pin.left, top: pin.top }}
+              >
+                <span className="flex flex-col items-center">
+                  <span className="mb-1 whitespace-nowrap rounded-full bg-white px-3 py-1 font-display text-xs font-black uppercase shadow-soft ring-1 ring-black/5 transition-colors group-hover:bg-brand-soft">
+                    {area.name}
+                  </span>
+                  <MapPin
+                    className="h-9 w-9 fill-cta text-white drop-shadow-md transition-transform duration-300 group-hover:-translate-y-1"
+                    aria-hidden
+                  />
+                </span>
+              </a>
+            );
+          })}
+        </div>
+        <p className="pointer-events-none absolute bottom-0 right-0 bg-white/85 px-2 py-0.5 text-[0.65rem] text-muted-foreground">
+          <a
+            href="https://www.openstreetmap.org/copyright"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pointer-events-auto underline-offset-2 hover:underline"
+          >
+            {t.area.mapAttribution}
+          </a>
+        </p>
       </div>
       <div className="flex flex-col gap-2 border-t border-border p-4 text-sm sm:flex-row sm:items-center sm:justify-between">
         <p className="text-muted-foreground">{t.area.mapCaption}</p>

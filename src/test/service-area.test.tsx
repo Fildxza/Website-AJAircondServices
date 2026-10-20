@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 
 import { ServiceArea } from "@/components/site/service-area";
 import { BookingForm } from "@/components/site/booking-form";
-import { contacts, navLinks, serviceMap } from "@/content/site";
+import { contacts, coveredAreas, navLinks, serviceMap } from "@/content/site";
 import { renderInLanguage, renderWholePage, stubIntersectionObserver } from "./page-utils";
 
 beforeAll(stubIntersectionObserver);
@@ -17,45 +17,58 @@ describe("Service Area section", () => {
     expect(text).toContain("We currently serve Kuala Lumpur and Selangor only.");
     expect(text).toContain("Not sure if we cover your area? Ask us before you book.");
     expect(text).toMatch(/can.t guarantee every neighbourhood/);
-    expect(text).toMatch(/does not show a shop or office location/);
+    expect(text).toMatch(/pins mark areas, not a shop or office location/);
     expect(text).not.toMatch(/\bkm\b|radius|Jalan|Taman|Bangsar|Petaling|Shah Alam/i);
   });
 
-  it("does not load Google Maps until the visitor asks for it", () => {
+  it("shows the map straight away: no button to press, no iframe, no Google embed", () => {
     const { container } = renderInLanguage(<ServiceArea />);
     expect(container.querySelector("iframe")).toBeNull();
-    expect(screen.getByRole("button", { name: "Load map" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Load map|Muat peta/ })).toBeNull();
+    const tiles = [...container.querySelectorAll<HTMLImageElement>("img")];
+    expect(tiles).toHaveLength(9);
+    for (const img of tiles)
+      expect(img.src).toMatch(/^https:\/\/tile\.openstreetmap\.org\/9\/\d+\/\d+\.png$/);
+    expect(screen.getByRole("group", { name: serviceMap.title })).toBeInTheDocument();
   });
 
-  it("loads the neutral, sandboxed embed after clicking Load map", () => {
+  it("has one pin per covered area, each linking to that area on Google Maps", () => {
+    renderInLanguage(<ServiceArea />);
+    for (const area of serviceMap.pins) {
+      const pin = screen.getByRole("link", { name: `${area.name}: open in Google Maps` });
+      expect(pin).toHaveAttribute("href", area.href);
+      expect(pin).toHaveAttribute("target", "_blank");
+      expect(pin.getAttribute("rel")).toContain("noopener");
+      expect(pin).toHaveTextContent(area.name);
+    }
+    expect(serviceMap.pins.map((p) => p.name)).toEqual([...coveredAreas]);
+  });
+
+  it("says the pins mark areas, not a shop, and credits OpenStreetMap", () => {
     const { container } = renderInLanguage(<ServiceArea />);
-    fireEvent.click(screen.getByRole("button", { name: "Load map" }));
-    const frame = container.querySelector("iframe");
-    expect(frame).not.toBeNull();
-    expect(frame).toHaveAttribute("src", serviceMap.embedUrl);
-    expect(frame).toHaveAttribute("title", serviceMap.title);
-    expect(frame).toHaveAttribute("loading", "lazy");
-    expect(frame).toHaveAttribute("referrerpolicy", "strict-origin-when-cross-origin");
-    expect(frame?.getAttribute("sandbox")).toContain("allow-scripts");
-    expect(screen.queryByRole("button", { name: "Load map" })).toBeNull();
+    expect(container.textContent).toMatch(/pins mark areas, not a shop or office location/);
+    const credit = screen.getByRole("link", { name: /OpenStreetMap contributors/ });
+    expect(credit).toHaveAttribute("href", "https://www.openstreetmap.org/copyright");
   });
 
   it("always offers a plain Open in Google Maps link as a fallback", () => {
     renderInLanguage(<ServiceArea />);
-    const link = screen.getByRole("link", { name: /Open in Google Maps/ });
+    const link = screen.getByRole("link", { name: /Open in Google Maps \(/ });
     expect(link).toHaveAttribute("href", serviceMap.openUrl);
     expect(link).toHaveAttribute("target", "_blank");
     expect(link.getAttribute("rel")).toMatch(/noopener/);
   });
 
-  it("the map still works in Bahasa Melayu", () => {
-    const { container } = renderInLanguage(<ServiceArea />, "ms");
-    fireEvent.click(screen.getByRole("button", { name: "Muat peta" }));
-    expect(container.querySelector("iframe")).toHaveAttribute("src", serviceMap.embedUrl);
-    expect(screen.getByRole("link", { name: /Buka dalam Google Maps/ })).toHaveAttribute(
+  it("the map works in Bahasa Melayu too", () => {
+    renderInLanguage(<ServiceArea />, "ms");
+    expect(
+      screen.getByRole("link", { name: "Kuala Lumpur: buka dalam Google Maps" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Buka dalam Google Maps \(/ })).toHaveAttribute(
       "href",
       serviceMap.openUrl,
     );
+    expect(screen.getByText(/Penanda menunjukkan kawasan/)).toBeInTheDocument();
   });
 
   it("the area question pre-fills the booking notes instead of opening WhatsApp", () => {

@@ -25,13 +25,16 @@ describe("business rules", () => {
 });
 
 describe("service area map", () => {
-  it("is a standard key-free Google Maps embed with no marker or place query", () => {
-    const embed = new URL(serviceMap.embedUrl);
-    expect(embed.protocol).toBe("https:");
-    expect(embed.hostname).toBe("maps.google.com");
-    expect(embed.searchParams.get("output")).toBe("embed");
-    for (const forbidden of ["key", "q", "query", "daddr", "saddr"]) {
-      expect(embed.searchParams.has(forbidden)).toBe(false);
+  it("is a keyless OpenStreetMap view with one pin per area and a Google Maps fallback link", () => {
+    expect(serviceMap.pins.map((p) => p.id)).toEqual(["kl", "selangor"]);
+    for (const p of serviceMap.pins) {
+      expect(p.lat).toBeGreaterThan(2.5);
+      expect(p.lat).toBeLessThan(4);
+      expect(p.lon).toBeGreaterThan(100.5);
+      expect(p.lon).toBeLessThan(102);
+      const url = new URL(p.href);
+      expect(url.hostname).toBe("www.google.com");
+      expect(url.searchParams.has("key")).toBe(false);
     }
     expect(new URL(serviceMap.openUrl).hostname).toBe("www.google.com");
     expect(serviceMap.openUrl).not.toMatch(/key=|query=/);

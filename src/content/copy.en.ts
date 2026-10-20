@@ -126,12 +126,10 @@ export const en = {
     ctaBody: "Tell us your area and we'll let you know if we can help.",
     ctaButton: "Ask about my area",
     ctaNote: "Please confirm whether you cover my area: ",
-    mapHeading: "Map of Kuala Lumpur & Selangor",
-    loadMap: "Load map",
-    mapPrivacy:
-      "Loads Google Maps. Google may set cookies and collect data under its own privacy policy. Nothing loads until you choose to.",
     mapCaption:
-      "General map view of Kuala Lumpur and Selangor. It does not show a shop or office location.",
+      "General map of the service area. The pins mark areas, not a shop or office location.",
+    mapAttribution: "© OpenStreetMap contributors",
+    pinLabel: "{name}: open in Google Maps",
     openMap: "Open in Google Maps",
     mapTitle: s(serviceMap.title),
   },

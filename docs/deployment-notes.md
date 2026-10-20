@@ -85,7 +85,7 @@ Cloudflare account and the `wrangler` tool, neither of which has been used.
 - [ ] Home page loads over HTTPS; logo image loads from `/brand/aj-logo-web.png`, and all 9 gallery photos load from `/gallery/`
 - [ ] Every WhatsApp button opens WhatsApp with the right number and message (tap each on a phone)
 - [ ] Both `tel:` links dial the right numbers
-- [ ] "Load map" loads the map; "Open in Google Maps" opens a new tab
+- [ ] The service-area map shows by itself (OpenStreetMap tiles, pins for Kuala Lumpur and Selangor); each pin and "Open in Google Maps" open a new tab
 - [ ] View page source: one `<title>`, one description, one JSON-LD block, `lang="ms-MY"` (the default language)
 - [ ] Favicon decision made (see `brand-assets-pending.md`)
 - [ ] Owner has answered, or explicitly deferred, every item in the decision register
